@@ -10,16 +10,13 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var dropDownMenu: DropDownMenu?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        self.dropDownMenu = DropDownMenu.dropDownMenuWithWidth(50.0)
+        self.dropDownMenu?.menuItems = [ "Alaska", "Alabama", "Kentucky", "Florida", "Washington" ]
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
 
