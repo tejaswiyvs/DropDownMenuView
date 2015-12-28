@@ -12,7 +12,7 @@ import UIKit
 class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     
     static let reuseId = "DropDownMenuReuseId"
-    static let defaultHeight = 30.0
+    static let defaultHeight: CGFloat = 30.0
     static let dropDownHeight: CGFloat = 200.0
     
     var menuItems: [String]? {
@@ -26,9 +26,10 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     var tableView: UITableView?
     var selectedItem: String?
     var tapGestureRecognizer: UITapGestureRecognizer?
+    var showing: Bool = false
     
     static func dropDownMenuWithWidth(width: CGFloat) -> DropDownMenu {
-        return DropDownMenu(frame: CGRectMake(0.0, 0.0, width, DropDownMenu.dropDownHeight))
+        return DropDownMenu(frame: CGRectMake(0.0, 0.0, width, DropDownMenu.defaultHeight))
     }
     
     override init(frame: CGRect) {
@@ -44,7 +45,7 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     func commonInit() {
         self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor.lightGrayColor().CGColor
-        self.addDropDownCheckBox()
+        self.addDropDownCheckBox()        
     }
     
     func dropDownTapped(sender: UIGestureRecognizer) {
@@ -52,7 +53,11 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func animateAddTableView() {
-        UIView.animateWithDuration(0.5) { () -> Void in
+        UIView.animateWithDuration(0.5) { [unowned self]() -> Void in
+
+            self.showing = true
+            
+            let boundsToAnimateTo = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.width, self.bounds.height + DropDownMenu.dropDownHeight)
             
             self.tableView = UITableView(frame: self.bounds)
             self.tableView?.delegate = self
@@ -61,8 +66,24 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
             self.tableView?.reloadData()
 
             
-            self.bounds = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.width, self.bounds.height + DropDownMenu.dropDownHeight)
+            self.tableView?.frame = boundsToAnimateTo
+            self.bounds = boundsToAnimateTo
         }
+    }
+    
+    func animateRemoveTableView() {
+        UIView.animateWithDuration(0.5,
+            animations: { () -> Void in
+                self.tableView?.alpha = 0.0
+                let boundsToAnimateTo = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.width, self.bounds.height - DropDownMenu.dropDownHeight)
+                self.bounds = boundsToAnimateTo
+                self.tableView?.frame = boundsToAnimateTo
+            },
+            completion: { (completed) -> Void in
+                self.tableView?.removeFromSuperview()
+                self.showing = false
+            }
+        )
     }
     
     func addDropDownCheckBox() {
@@ -80,21 +101,11 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
         
         imageView.addGestureRecognizer(self.tapGestureRecognizer!)
         imageView.userInteractionEnabled = true
-
+        
         self.addSubview(imageView)
     }
     
-//    func animateRemoveTableView() {
-//        UIView.animateWithDuration(1.0, animations: { () -> Void in
-//            self.tableView?.alpha = 0.0
-//            self.bounds = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.width, self.bounds.height - DropDownMenu.dropDownHeight)
-//            }) { (completed) -> Void in
-//            }
-//        }
-//    }
-    
     // MARK :- TableView
-    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -127,5 +138,11 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     
     func complete() -> Bool {
         return self.selectedItem != nil
+    }
+    
+    func dismiss() {
+        if self.showing {
+            self.animateRemoveTableView()
+        }
     }
 }
