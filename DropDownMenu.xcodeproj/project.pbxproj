@@ -7,16 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B7569CA51C32DBD3003D94DC /* drop-down.png in Resources */ = {isa = PBXBuildFile; fileRef = B7569CA41C32DBD3003D94DC /* drop-down.png */; };
 		B7B023EC1C2466310035CD72 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B023EB1C2466310035CD72 /* AppDelegate.swift */; };
 		B7B023EE1C2466310035CD72 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B023ED1C2466310035CD72 /* ViewController.swift */; };
 		B7B023F11C2466310035CD72 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7B023EF1C2466310035CD72 /* Main.storyboard */; };
 		B7B023F31C2466310035CD72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7B023F21C2466310035CD72 /* Assets.xcassets */; };
 		B7B023F61C2466310035CD72 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7B023F41C2466310035CD72 /* LaunchScreen.storyboard */; };
 		B7B023FF1C24665B0035CD72 /* DropDownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B023FE1C24665B0035CD72 /* DropDownMenu.swift */; };
-		B7B024011C2480AF0035CD72 /* drop-down.png in Resources */ = {isa = PBXBuildFile; fileRef = B7B024001C2480AF0035CD72 /* drop-down.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B7569CA41C32DBD3003D94DC /* drop-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "drop-down.png"; path = "DropDownMenu/drop-down.png"; sourceTree = "<group>"; };
 		B7B023E81C2466310035CD72 /* DropDownMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DropDownMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7B023EB1C2466310035CD72 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B7B023ED1C2466310035CD72 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -25,7 +26,6 @@
 		B7B023F51C2466310035CD72 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B7B023F71C2466310035CD72 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7B023FE1C24665B0035CD72 /* DropDownMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DropDownMenu.swift; path = DropDownMenu/DropDownMenu.swift; sourceTree = "<group>"; };
-		B7B024001C2480AF0035CD72 /* drop-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "drop-down.png"; path = "../../../../Downloads/drop-down.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				B7B023FE1C24665B0035CD72 /* DropDownMenu.swift */,
-				B7B024001C2480AF0035CD72 /* drop-down.png */,
+				B7569CA41C32DBD3003D94DC /* drop-down.png */,
 			);
 			name = DropDownMenu;
 			sourceTree = "<group>";
@@ -138,7 +138,7 @@
 			files = (
 				B7B023F61C2466310035CD72 /* LaunchScreen.storyboard in Resources */,
 				B7B023F31C2466310035CD72 /* Assets.xcassets in Resources */,
-				B7B024011C2480AF0035CD72 /* drop-down.png in Resources */,
+				B7569CA51C32DBD3003D94DC /* drop-down.png in Resources */,
 				B7B023F11C2466310035CD72 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,6 +302,7 @@
 				B7B023FC1C2466310035CD72 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
