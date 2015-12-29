@@ -18,6 +18,7 @@ class ViewController: UIViewController {
         self.dropDownMenu = DropDownMenu.dropDownMenuWithWidth(200.0)
         self.dropDownMenu?.center = CGPointMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0)
         self.dropDownMenu?.menuItems = [ "Alaska", "Alabama", "Kentucky", "Florida", "Washington" ]
+        self.dropDownMenu?.selectionMode = .Multi
         
         self.view.addSubview(self.dropDownMenu!)
     }
