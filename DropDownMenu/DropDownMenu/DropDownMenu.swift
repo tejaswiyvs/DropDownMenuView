@@ -18,10 +18,6 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     static let dropDownCheckMarkDimension: CGFloat = 24.0
     static let padding: CGFloat = 3.0
     
-    enum SelectionMode {
-        case Single, Multi
-    }
-    
     var menuItems: [String]? {
         didSet {
             self.tableView?.reloadData()
@@ -36,10 +32,9 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     
     var tableView: UITableView?
     var valueLbl: UILabel?
-    var selectedIndexes: [Int] = []
+    var selectedIdx: Int?
     var tapGestureRecognizer: UITapGestureRecognizer?
     var showing: Bool = false
-    var selectionMode: SelectionMode = .Single
     
     static func dropDownMenuWithWidth(width: CGFloat) -> DropDownMenu {
         return DropDownMenu(frame: CGRectMake(0.0, 0.0, width, DropDownMenu.defaultHeight))
@@ -155,19 +150,9 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let idx = self.selectedIndexes.indexOf(indexPath.row) {
-            self.selectedIndexes.removeAtIndex(idx)
-            if self.selectionMode == .Single {
-                self.valueLbl?.text = self.defaultValueOrConstant()
-            }
-        }
-        else {
-            self.selectedIndexes.append(indexPath.row)
-            if self.selectionMode == .Single {
-                self.valueLbl?.text = self.menuItems![indexPath.row]
-            }
-            self.dismiss()
-        }
+        self.selectedIdx = indexPath.row
+        self.valueLbl?.text = self.menuItems![indexPath.row]
+        self.dismiss()
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
@@ -178,7 +163,7 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func complete() -> Bool {
-        return self.selectedIndexes.count > 0
+        return self.selectedIdx != nil
     }
     
     func dismiss() {
