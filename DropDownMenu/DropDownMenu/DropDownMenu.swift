@@ -33,7 +33,14 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     var tableView: UITableView?
     var valueLbl: UILabel?
     var dropDownImgView: UIImageView?
-    var selectedIdx: Int?
+    var selectedIdx: Int? {
+        didSet {
+            if selectedIdx != nil && menuItems != nil && selectedIdx! >= 0 && selectedIdx < menuItems!.count {
+                self.valueLbl?.text = self.menuItems![selectedIdx!]
+            }
+        }
+    }
+    
     var tapGestureRecognizer: UITapGestureRecognizer?
     var showing: Bool = false
     
