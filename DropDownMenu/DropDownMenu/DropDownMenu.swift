@@ -41,6 +41,12 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    var selectedText: String? {
+        didSet {
+            self.valueLbl?.text = selectedText
+        }
+    }
+    
     var tapGestureRecognizer: UITapGestureRecognizer?
     var showing: Bool = false
     
