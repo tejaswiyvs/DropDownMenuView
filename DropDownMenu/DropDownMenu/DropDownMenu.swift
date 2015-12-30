@@ -32,6 +32,7 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     
     var tableView: UITableView?
     var valueLbl: UILabel?
+    var dropDownImgView: UIImageView?
     var selectedIdx: Int?
     var tapGestureRecognizer: UITapGestureRecognizer?
     var showing: Bool = false
@@ -58,6 +59,17 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
         self.userInteractionEnabled = true
     }
     
+    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        let view = super.hitTest(point, withEvent: event)
+        
+        // The touch did not happen in this View
+        if view == nil || (view != nil && view != self && !view!.isDescendantOfView(self)) {
+            self.dismiss()
+        }
+        
+        return view
+    }
+    
     func dropDownTapped(sender: UIGestureRecognizer) {
         self.animateAddTableView()
     }
@@ -80,6 +92,8 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
             self.tableView = UITableView(frame: self.bounds)
             self.tableView?.delegate = self
             self.tableView?.dataSource = self
+            self.tableView?.registerNib(UINib(nibName: "DropDownTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: DropDownMenu.reuseId)
+            
             self.addSubview(self.tableView!)
             self.tableView?.reloadData()
 
@@ -92,6 +106,7 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     func animateRemoveTableView() {
         UIView.animateWithDuration(0.3,
             animations: { () -> Void in
+                self.showing = false
                 self.tableView?.alpha = 0.0
                 let boundsToAnimateTo = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.width, self.bounds.height - DropDownMenu.dropDownHeight)
                 self.bounds = boundsToAnimateTo
@@ -99,7 +114,6 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
             },
             completion: { (completed) -> Void in
                 self.tableView?.removeFromSuperview()
-                self.showing = false
             }
         )
     }
@@ -138,24 +152,35 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(DropDownMenu.reuseId)
-        if cell == nil {
-            cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: DropDownMenu.reuseId)
-        }
-        
+        let cell = tableView.dequeueReusableCellWithIdentifier(DropDownMenu.reuseId) as! DropDownTableViewCell
         let item = menuItems![indexPath.row]
-        cell?.textLabel?.text = item
-        
-        return cell!
+        cell.dropDownValueLbl.text = item
+        if let s = self.selectedIdx {
+            if s == indexPath.row {
+                cell.checkBoxImgView.image = UIImage(named: "check-mark")
+            }
+            else {
+                cell.checkBoxImgView.image = nil
+            }
+        }
+        return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let previousIdx = self.selectedIdx
         self.selectedIdx = indexPath.row
         self.valueLbl?.text = self.menuItems![indexPath.row]
         self.dismiss()
-        
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+        
+        // Remove selection on previous cell, transfer it to current cell
+        // Need to reload both index paths
+        var indexPaths = [indexPath]
+        if let p = previousIdx {
+            indexPaths.append(NSIndexPath(forRow: p, inSection: indexPath.section))
+        }
+        
+        tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.None)
     }
     
     func defaultValueOrConstant() -> String {

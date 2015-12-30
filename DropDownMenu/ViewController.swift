@@ -22,20 +22,20 @@ class ViewController: UIViewController {
         self.view.addSubview(self.dropDownMenu!)
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if touches.count > 0 {
-            // Is it valid to just look at the first touch?
-            // TODO: Read docs on touchesEnded to write a better handler for touch outside dropDownMenu bounds
-            let touch = touches.first
-            let position = touch?.locationInView(self.view)
-            if position != nil && self.dropDownMenu != nil {
-                if !CGRectContainsPoint(self.dropDownMenu!.frame, position!) {
-                    self.dropDownMenu!.dismiss()
-                }
-            }
-        }
-        
-        super.touchesEnded(touches, withEvent: event)
-    }
+//    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        if touches.count > 0 {
+//            // Is it valid to just look at the first touch?
+//            // TODO: Read docs on touchesEnded to write a better handler for touch outside dropDownMenu bounds
+//            let touch = touches.first
+//            let position = touch?.locationInView(self.view)
+//            if position != nil && self.dropDownMenu != nil {
+//                if !CGRectContainsPoint(self.dropDownMenu!.frame, position!) {
+//                    self.dropDownMenu!.dismiss()
+//                }
+//            }
+//        }
+//        
+//        super.touchesEnded(touches, withEvent: event)
+//    }
 }
 
