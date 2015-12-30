@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+@IBDesignable
 class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     
     static let reuseId = "DropDownMenuReuseId"
@@ -18,21 +19,22 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     static let dropDownCheckMarkDimension: CGFloat = 24.0
     static let padding: CGFloat = 3.0
     
-    var menuItems: [String]? {
+    @IBInspectable var defaultValue: String? {
         didSet {
-            self.tableView?.reloadData()
+            self.valueLbl?.text = defaultValue
         }
     }
     
-    var defaultValue: String? {
+    @IBInspectable var selectedText: String? {
         didSet {
-            self.valueLbl?.text = defaultValue
+            self.valueLbl?.text = selectedText
         }
     }
     
     var tableView: UITableView?
     var valueLbl: UILabel?
     var dropDownImgView: UIImageView?
+    
     var selectedIdx: Int? {
         didSet {
             if selectedIdx != nil && menuItems != nil && selectedIdx! >= 0 && selectedIdx < menuItems!.count {
@@ -41,9 +43,9 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    var selectedText: String? {
+    var menuItems: [String]? {
         didSet {
-            self.valueLbl?.text = selectedText
+            self.tableView?.reloadData()
         }
     }
     
