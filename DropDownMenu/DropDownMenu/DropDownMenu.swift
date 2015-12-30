@@ -58,11 +58,18 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        #if !TARGET_INTERFACE_BUILDER
         self.commonInit()
+        #endif
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        self.commonInit()
+    }
+    
+    override func prepareForInterfaceBuilder() {
+        super.prepareForInterfaceBuilder()
         self.commonInit()
     }
     
@@ -141,7 +148,7 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
         let y = (self.bounds.size.height - dropDownCheckMarkDimension) / 2.0
         
         let imageView = UIImageView(frame: CGRectMake(x, y, dropDownCheckMarkDimension, dropDownCheckMarkDimension))
-        imageView.image = UIImage(named: "drop-down")
+        imageView.image = UIImage(named: "drop-down", inBundle: NSBundle(forClass: DropDownMenu.self), compatibleWithTraitCollection: nil)
         
         self.tapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("dropDownTapped:"))
         self.tapGestureRecognizer?.numberOfTapsRequired = 1

@@ -22,7 +22,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" id="bgF-Fy-Fdl" customClass="DropDownMenu" customModule="DropDownMenu" customModuleProvider="target">
-                                <rect key="frame" x="114" y="39" width="186" height="40"/>
+                                <rect key="frame" x="114" y="44" width="186" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
