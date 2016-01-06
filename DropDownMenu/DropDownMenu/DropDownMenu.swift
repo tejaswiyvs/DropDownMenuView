@@ -13,6 +13,17 @@ import UIKit
 class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     
     static let reuseId = "DropDownMenuReuseId"
+    
+    
+    /**
+     *  Very big gotcha: The current DropDownMenu assumes the height is always equal to
+     *  the DropDownMenu.defaultHeight value. If you instantiate via Interface builder
+     *  please ensure you set the height to the value in defaultHeight to make everything 
+     *  work properly.
+     * 
+     *  If you're instantiating the view programmatically, use the provided static initializer 
+     *  to do so
+     */
     static let defaultHeight: CGFloat = 30.0
     static let dropDownHeight: CGFloat = 200.0
     static let defaultValue = "Select"
@@ -109,19 +120,19 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
 
             self.showing = true
             
-            let boundsToAnimateTo = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.width, self.bounds.height + DropDownMenu.dropDownHeight)
+            let height = self.heightToAnimateTo()
             
             self.tableView = UITableView(frame: self.bounds)
-            self.tableView?.delegate = self
-            self.tableView?.dataSource = self
-            self.tableView?.registerNib(UINib(nibName: "DropDownTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: DropDownMenu.reuseId)
+            self.tableView!.delegate = self
+            self.tableView!.dataSource = self
+            self.tableView!.registerNib(UINib(nibName: "DropDownTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: DropDownMenu.reuseId)
             
             self.addSubview(self.tableView!)
-            self.tableView?.reloadData()
-
             
-            self.tableView?.frame = boundsToAnimateTo
-            self.bounds = boundsToAnimateTo
+            self.tableView!.frame = CGRectMake(self.tableView!.frame.origin.x, self.tableView!.frame.origin.y, self.tableView!.frame.size.width, height)
+            self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, height)
+            
+            self.tableView!.reloadData()
         }
     }
     
@@ -130,9 +141,8 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
             animations: { () -> Void in
                 self.showing = false
                 self.tableView?.alpha = 0.0
-                let boundsToAnimateTo = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.width, self.bounds.height - DropDownMenu.dropDownHeight)
-                self.bounds = boundsToAnimateTo
-                self.tableView?.frame = boundsToAnimateTo
+                self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width, DropDownMenu.defaultHeight)
+                self.tableView?.frame = CGRectMake(self.tableView!.frame.origin.x, self.tableView!.frame.origin.y, self.tableView!.frame.size.width, DropDownMenu.defaultHeight)
             },
             completion: { (completed) -> Void in
                 self.tableView?.removeFromSuperview()
@@ -217,5 +227,12 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
         if self.showing {
             self.animateRemoveTableView()
         }
+    }
+    
+    func heightToAnimateTo() -> CGFloat {
+        if let s = self.superview {
+            return min(self.frame.height + DropDownMenu.dropDownHeight, s.bounds.height - self.frame.origin.y - self.frame.size.height - DropDownMenu.padding)
+        }
+        return self.frame.height + DropDownMenu.dropDownHeight
     }
 }
