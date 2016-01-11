@@ -22,7 +22,7 @@
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="DU9-vV-ubh"/>
+                                    <constraint firstAttribute="height" constant="30" id="VSr-Fj-drE"/>
                                     <constraint firstAttribute="width" constant="186" id="ZZ4-8y-mOP"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -46,7 +46,7 @@
                             <constraint firstItem="bgF-Fy-Fdl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="47" id="LsM-FM-mxv"/>
                             <constraint firstItem="UNj-2s-DiQ" firstAttribute="top" secondItem="t0M-KC-lwB" secondAttribute="bottom" constant="72" id="bgk-x1-bGW"/>
                             <constraint firstItem="t0M-KC-lwB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-97" id="gGH-Qm-P6C"/>
-                            <constraint firstItem="UNj-2s-DiQ" firstAttribute="top" secondItem="bgF-Fy-Fdl" secondAttribute="bottom" constant="67" id="kvZ-l6-vCo"/>
+                            <constraint firstItem="UNj-2s-DiQ" firstAttribute="top" secondItem="bgF-Fy-Fdl" secondAttribute="bottom" constant="67" id="zeg-be-l24"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>

@@ -90,6 +90,7 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
         self.addDropDownCheckBox()
         self.addValueLabel()
         self.userInteractionEnabled = true
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
@@ -122,33 +123,64 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func animateAddTableView() {
-        UIView.animateWithDuration(0.3) { [unowned self]() -> Void in
-
-            self.showing = true
-            
-            let height = self.heightToAnimateTo()
-            
-            self.tableView = UITableView(frame: self.bounds)
-            self.tableView!.delegate = self
-            self.tableView!.dataSource = self
-            self.tableView!.registerNib(UINib(nibName: "DropDownTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: DropDownMenu.reuseId)
-            
-            self.addSubview(self.tableView!)
-            
-            self.tableView!.frame = CGRectMake(self.tableView!.frame.origin.x, self.tableView!.frame.origin.y, self.tableView!.frame.size.width, height)
-            self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, height)
-            
-            self.tableView!.reloadData()
+        
+        let height = self.heightToAnimateTo()
+        var flag = false
+        if let constraint = self.heightConstraint() {
+            flag = true
+            constraint.constant = height
         }
+        
+        UIView.animateWithDuration(0.3,
+            animations: { () -> Void in
+                self.showing = true
+                
+                self.tableView = UITableView(frame: self.bounds)
+                self.tableView!.delegate = self
+                self.tableView!.dataSource = self
+                self.tableView!.registerNib(UINib(nibName: "DropDownTableViewCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: DropDownMenu.reuseId)
+                self.tableView!.tableFooterView = UIView(frame: CGRectZero)
+                
+                self.addSubview(self.tableView!)
+                
+                self.tableView!.frame = CGRectMake(self.tableView!.frame.origin.x, self.tableView!.frame.origin.y, self.tableView!.frame.size.width, height)
+
+                // Deal with autolayout
+                if flag {
+                    self.layoutIfNeeded()
+                }
+                else {
+                    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, height)
+                }
+
+                self.tableView!.reloadData()
+            },
+            completion: { (completed) -> Void in
+                self.layer.borderWidth = 1.0
+                self.layer.borderColor = UIColor.lightGrayColor().CGColor
+            })
     }
     
     func animateRemoveTableView() {
+        var flag = false
+        if let constraint = self.heightConstraint() {
+            flag = true
+            constraint.constant = DropDownMenu.defaultHeight
+        }
+        
         UIView.animateWithDuration(0.3,
             animations: { () -> Void in
                 self.showing = false
                 self.tableView?.alpha = 0.0
-                self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width, DropDownMenu.defaultHeight)
                 self.tableView?.frame = CGRectMake(self.tableView!.frame.origin.x, self.tableView!.frame.origin.y, self.tableView!.frame.size.width, DropDownMenu.defaultHeight)
+
+                // Deal with autolayout
+                if flag {
+                    self.layoutIfNeeded()
+                }
+                else {
+                    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.width, DropDownMenu.defaultHeight)
+                }
             },
             completion: { (completed) -> Void in
                 self.tableView?.removeFromSuperview()
@@ -165,12 +197,6 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
         
         let imageView = UIImageView(frame: CGRectMake(x, y, dropDownCheckMarkDimension, dropDownCheckMarkDimension))
         imageView.image = UIImage(named: "drop-down", inBundle: NSBundle(forClass: DropDownMenu.self), compatibleWithTraitCollection: nil)
-        
-        self.tapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("dropDownTapped:"))
-        self.tapGestureRecognizer?.numberOfTapsRequired = 1
-        self.tapGestureRecognizer?.numberOfTouchesRequired = 1
-        
-        imageView.addGestureRecognizer(self.tapGestureRecognizer!)
         imageView.userInteractionEnabled = true
         
         self.addSubview(imageView)
@@ -182,7 +208,7 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 50.0
+        return DropDownMenu.defaultHeight
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -236,9 +262,19 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func heightToAnimateTo() -> CGFloat {
-        if let s = self.superview {
-            return min(self.frame.height + DropDownMenu.dropDownHeight, s.bounds.height - self.frame.origin.y - self.frame.size.height - DropDownMenu.padding)
-        }
+//        if let s = self.superview {
+//            return min(self.frame.height + DropDownMenu.dropDownHeight, s.bounds.height - self.frame.origin.y - self.frame.size.height - DropDownMenu.padding)
+//        }
         return self.frame.height + DropDownMenu.dropDownHeight
+    }
+    
+    func heightConstraint() -> NSLayoutConstraint? {
+        for constraint in self.constraints {
+            if constraint.firstAttribute == .Height {
+                return constraint
+            }
+        }
+        
+        return nil
     }
 }
