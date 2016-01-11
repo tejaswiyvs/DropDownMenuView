@@ -17,11 +17,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bgF-Fy-Fdl" customClass="DropDownMenu" customModule="DropDownMenu" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bgF-Fy-Fdl" customClass="DropDownMenu" customModule="DropDownMenu" customModuleProvider="target">
                                 <rect key="frame" x="161" y="639" width="186" height="30"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="DU9-vV-ubh"/>
                                     <constraint firstAttribute="width" constant="186" id="ZZ4-8y-mOP"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -42,7 +43,7 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="bgF-Fy-Fdl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="atu-nL-Ljq"/>
+                            <constraint firstItem="bgF-Fy-Fdl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="47" id="LsM-FM-mxv"/>
                             <constraint firstItem="UNj-2s-DiQ" firstAttribute="top" secondItem="t0M-KC-lwB" secondAttribute="bottom" constant="72" id="bgk-x1-bGW"/>
                             <constraint firstItem="t0M-KC-lwB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-97" id="gGH-Qm-P6C"/>
                             <constraint firstItem="UNj-2s-DiQ" firstAttribute="top" secondItem="bgF-Fy-Fdl" secondAttribute="bottom" constant="67" id="kvZ-l6-vCo"/>
