@@ -99,6 +99,12 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
         if view == nil || (view != nil && view != self && !view!.isDescendantOfView(self)) {
             self.dismiss()
         }
+        // If the touch did happen in this view or one of it's subviews
+        if view != nil && (view == self || view!.isDescendantOfView(self)) {
+            if !self.showing {
+                self.animateAddTableView()
+            }
+        }
         
         return view
     }
