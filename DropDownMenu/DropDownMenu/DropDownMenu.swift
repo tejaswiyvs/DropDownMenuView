@@ -36,7 +36,7 @@ class DropDownMenu : UIView, UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    @IBInspectable var selectedText: String? {
+    var selectedText: String? {
         didSet {
             self.valueLbl?.text = selectedText
         }
